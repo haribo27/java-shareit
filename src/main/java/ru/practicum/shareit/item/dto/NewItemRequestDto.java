@@ -1,17 +1,18 @@
-package ru.practicum.shareit.user.dto;
+package ru.practicum.shareit.item.dto;
+
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class UpdateUserRequest {
+public class NewItemRequestDto {
 
-    private long id;
-    @NotNull
     @NotBlank
+    @NotNull
     private String name;
     @NotNull
-    @NotBlank
-    private String email;
+    private String description;
+    @NotNull
+    private Boolean available;
 }
