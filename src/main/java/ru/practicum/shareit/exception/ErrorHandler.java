@@ -33,4 +33,11 @@ public class ErrorHandler {
         log.info("Entity not found 404 {}", e.getMessage());
         return new ErrorResponse("Entity not found status 404 " + e.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler
+    public ErrorResponse handleOtherExceptions(final Throwable e) {
+        log.info("Status code: 500 {}", e.getMessage());
+        return new ErrorResponse("Status code: 500 " + e.getMessage());
+    }
 }

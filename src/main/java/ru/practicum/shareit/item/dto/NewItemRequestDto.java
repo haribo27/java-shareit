@@ -9,9 +9,8 @@ import lombok.Data;
 public class NewItemRequestDto {
 
     @NotBlank
-    @NotNull
     private String name;
-    @NotNull
+    @NotBlank
     private String description;
     @NotNull
     private Boolean available;

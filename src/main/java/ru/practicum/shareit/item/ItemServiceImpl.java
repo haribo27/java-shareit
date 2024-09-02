@@ -12,7 +12,7 @@ import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserRepository;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,16 +22,17 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final ItemMapper itemMapper;
 
     @Override
     public ItemDto createItem(NewItemRequestDto requestDto, long userId) {
         log.info("Creating new Item with owner ID: {}", userId);
         checkUserExist(userId);
-        Item item = ItemMapper.mapToItem(requestDto);
+        Item item = itemMapper.toItem(requestDto);
         item.setOwnerId(userId);
         item = itemRepository.createItem(item);
         log.info("Created new Item {}", item);
-        return ItemMapper.mapToItemDto(item);
+        return itemMapper.toItemDto(item);
     }
 
     @Override
@@ -43,16 +44,16 @@ public class ItemServiceImpl implements ItemService {
         log.info("Check owner is correct");
         checkItemOwner(userId, updatedItem.getOwnerId());
         log.info("Owner is CORRECT!");
-        updatedItem = itemRepository.updateItem(ItemMapper.updateItemFields(requestDto, updatedItem));
+        updatedItem = itemMapper.updateItem(requestDto);
         log.info("Updated item {}", updatedItem);
-        return ItemMapper.mapToItemDto(updatedItem);
+        return itemMapper.toItemDto(updatedItem);
     }
 
     @Override
     public ItemDto getItemInfo(long itemId) {
         log.info("Getting item {} info", itemId);
         return itemRepository.findItemById(itemId)
-                .map(ItemMapper::mapToItemDto)
+                .map(itemMapper::toItemDto)
                 .orElseThrow(() -> new EntityNotFoundException("Item Not Found"));
     }
 
@@ -60,19 +61,21 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemDto> getOwnersItems(long userId) {
         log.info("Getting owners items");
         return itemRepository.getOwnerItems(userId)
-                .stream().map(ItemMapper::mapToItemDto)
+                .stream()
+                .map(itemMapper::toItemDto)
                 .toList();
     }
 
     @Override
     public List<ItemDto> searchItemsByText(String text) {
-        if (text == null || text.isBlank()) {
+        if (text.isBlank()) {
             log.info("Return empty result of search with blank query");
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
         log.info("Searching item with query - {}", text);
         return itemRepository.searchItemByText(text.toLowerCase())
-                .stream().map(ItemMapper::mapToItemDto)
+                .stream()
+                .map(itemMapper::toItemDto)
                 .toList();
     }
 

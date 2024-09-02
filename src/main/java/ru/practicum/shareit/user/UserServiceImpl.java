@@ -19,6 +19,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     public UserDto createUser(NewUserRequestDto request) {
@@ -26,10 +27,10 @@ public class UserServiceImpl implements UserService {
         if (!isEmailUnique(request.getEmail())) {
             throw new NotUniqueDataException("Email must be unique");
         }
-        User user = UserMapper.mapToUser(request);
+        User user = userMapper.toUser(request);
         user = userRepository.createUser(user);
         log.info("Created user {}", user);
-        return UserMapper.mapToUserDto(user);
+        return userMapper.toUserDto(user);
     }
 
     @Override
@@ -44,15 +45,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UpdateUserRequestDto request, long userId) {
         log.info("Updating user {}", request);
-        if (!isEmailUnique(request.getEmail())) {
-            throw new NotUniqueDataException("Email must be unique");
-        }
         User updatedUser = userRepository.findUserById(userId)
-                .map(user1 -> UserMapper.updateUserFields(user1, request))
+                .map(user -> {
+                    boolean isEmailChanged = request.getEmail() != null && !request.getEmail().equals(user.getEmail());
+                    if (isEmailChanged && !isEmailUnique(request.getEmail())) {
+                        throw new NotUniqueDataException("Email must be unique");
+                    }
+                    return userMapper.updateUserRequest(request);
+                })
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         updatedUser = userRepository.updateUser(updatedUser, userId);
         log.info("User {} updated", updatedUser);
-        return UserMapper.mapToUserDto(updatedUser);
+        return userMapper.toUserDto(updatedUser);
     }
 
     @Override
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
         log.info("Getting all users");
         return userRepository.getAllUsers()
                 .stream()
-                .map(UserMapper::mapToUserDto)
+                .map(userMapper::toUserDto)
                 .toList();
     }
 
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService {
     public UserDto findUserById(long userId) {
         log.info("Getting user with id: {}", userId);
         return userRepository.findUserById(userId)
-                .map(UserMapper::mapToUserDto)
+                .map(userMapper::toUserDto)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
@@ -80,4 +84,5 @@ public class UserServiceImpl implements UserService {
         }
         return !emails.contains(email);
     }
+
 }
