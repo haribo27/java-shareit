@@ -45,7 +45,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> handleNotEnoughRightsToChangeBooking(final NotEnoughRightsToChangeBooking e) {
+    public ResponseEntity<?> handleNotEnoughRightsToChangeBooking(final NotEnoughRightsToChangeData e) {
         log.info("Status code: 400 {}", e.getMessage());
         return new ResponseEntity<>(new ErrorResponse("403 " + e.getMessage(),
                 "Wrong booking owner"),

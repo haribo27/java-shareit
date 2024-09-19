@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking.dto;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import ru.practicum.shareit.booking.model.BookingStatus;
 
@@ -18,6 +19,8 @@ public class NewBookingRequest {
     @NotNull
     @Future(message = "Дата окончания должна быть в будущем времени")
     private LocalDateTime end;
-    private BookingStatus status = BookingStatus.WAITING;
-    private long itemId;
+    private BookingStatus status;
+    @Positive
+    @NotNull
+    private Long itemId;
 }

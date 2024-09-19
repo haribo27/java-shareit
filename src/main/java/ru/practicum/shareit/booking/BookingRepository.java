@@ -22,4 +22,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long>, Queryds
 
     @EntityGraph(attributePaths = {"booker", "item", "item.owner"})
     Iterable<Booking> findAll(Predicate predicate, Sort sort);
+
+    Optional<Booking> findByBooker_IdAndItem_Id(long userId, long itemId);
 }

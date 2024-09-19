@@ -13,7 +13,7 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.QBooking;
 import ru.practicum.shareit.exception.EntityNotFoundException;
 import ru.practicum.shareit.exception.ItemIsNotAvailable;
-import ru.practicum.shareit.exception.NotEnoughRightsToChangeBooking;
+import ru.practicum.shareit.exception.NotEnoughRightsToChangeData;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserRepository;
@@ -21,6 +21,7 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -43,7 +44,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingDto createBooking(NewBookingRequest bookingRequest, long userId) {
         log.info("User {}, creating new booking {}", userId, bookingRequest);
-        Booking booking = bookingMapper.requestToBooking(bookingRequest);
+        Booking booking = bookingMapper.mapToBooking(bookingRequest);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         Item item = itemRepository.findByIdWithUser(bookingRequest.getItemId())
@@ -56,6 +57,8 @@ public class BookingServiceImpl implements BookingService {
         booking.setBooker(user);
         log.info("Set item to booking {}", item);
         booking.setItem(item);
+        log.info("Set status: WAITING to booking");
+        booking.setStatus(WAITING);
         booking = bookingRepository.save(booking);
         log.info("Booking saved success {}", booking);
         return bookingMapper.toBookingDto(booking);
@@ -69,7 +72,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new EntityNotFoundException("Booking not found"));
         if (booking.getItem().getOwner().getId() != userId) {
             log.info("Booking: {} has another item owner.", booking);
-            throw new NotEnoughRightsToChangeBooking("Wrong booking owner");
+            throw new NotEnoughRightsToChangeData("Wrong booking owner");
         }
         log.info("Set status to booking {}", isApproved);
         booking.setStatus(isApproved ? APPROVED : REJECTED);
@@ -83,7 +86,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new EntityNotFoundException("Booking not found"));
         if (booking.getBooker().getId() != userId && booking.getItem().getOwner().getId() != userId) {
             log.info("User with id: {} dont have rights to see booking", userId);
-            throw new NotEnoughRightsToChangeBooking("You must be owner of booking or item");
+            throw new NotEnoughRightsToChangeData("You must be owner of booking or item");
         }
         log.info("Getting booking {}", booking);
         return bookingMapper.toBookingDto(booking);
@@ -122,8 +125,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private BooleanExpression getStateExpression(SearchBookingStates state) {
-        BooleanExpression byState = null;
-        return byState = switch (state) {
+        return switch (state) {
             case ALL -> null;
             case CURRENT -> QBooking.booking.end.after(LocalDateTime.now());
             case PAST -> QBooking.booking.end.before(LocalDateTime.now());
@@ -133,4 +135,7 @@ public class BookingServiceImpl implements BookingService {
         };
     }
 
+    public Optional<Booking> isUserHadBookingOfItem(long userId, long itemId) {
+        return bookingRepository.findByBooker_IdAndItem_Id(userId, itemId);
+    }
 }

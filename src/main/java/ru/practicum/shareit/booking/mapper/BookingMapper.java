@@ -11,7 +11,7 @@ import ru.practicum.shareit.booking.model.Booking;
         nullValueMapMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
 public interface BookingMapper {
 
-    Booking requestToBooking(NewBookingRequest bookingRequest);
+    Booking mapToBooking(NewBookingRequest bookingRequest);
 
     BookingDto toBookingDto(Booking booking);
 }
