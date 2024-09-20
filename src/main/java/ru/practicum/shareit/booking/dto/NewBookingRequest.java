@@ -5,11 +5,12 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-import ru.practicum.shareit.booking.model.BookingStatus;
+import ru.practicum.shareit.util.StartBeforeEndDateValid;
 
 import java.time.LocalDateTime;
 
 @Data
+@StartBeforeEndDateValid(message = "Start date must be before end date")
 public class NewBookingRequest {
 
     private Long id;
@@ -19,7 +20,6 @@ public class NewBookingRequest {
     @NotNull
     @Future(message = "Дата окончания должна быть в будущем времени")
     private LocalDateTime end;
-    private BookingStatus status;
     @Positive
     @NotNull
     private Long itemId;

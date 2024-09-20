@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking;
 
-import jakarta.validation.constraints.Positive;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.NewBookingRequest;
 import ru.practicum.shareit.booking.model.Booking;
@@ -14,7 +13,7 @@ public interface BookingService {
 
     BookingDto approveBooking(long userId, long bookingId, boolean isApproved);
 
-    BookingDto getBooking(long userId, @Positive long bookingId);
+    BookingDto getBooking(long userId, long bookingId);
 
     List<BookingDto> getBookingsOfUser(long userId, SearchBookingStates state);
 
