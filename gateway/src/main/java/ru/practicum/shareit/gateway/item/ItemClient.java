@@ -26,12 +26,12 @@ public class ItemClient extends BaseClient {
     }
 
     public ResponseEntity<Object> createItem(NewItemRequestDto requestDto, long userId) {
-        return post("" , userId, requestDto);
+        return post("", userId, requestDto);
     }
 
     public ResponseEntity<Object> createComment(NewCommentRequestDto requestDto,
                                                 long itemId, long userId) {
-        return post("/" + itemId  + "/comment", userId, requestDto);
+        return post("/" + itemId + "/comment", userId, requestDto);
     }
 
     public ResponseEntity<Object> updateItem(UpdateItemRequestDto requestDto,

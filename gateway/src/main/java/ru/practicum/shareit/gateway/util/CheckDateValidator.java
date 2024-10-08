@@ -19,6 +19,6 @@ public class CheckDateValidator implements ConstraintValidator<StartBeforeEndDat
         if (start == null || end == null) {
             return false;
         }
-        return start.isBefore( end);
+        return start.isBefore(end);
     }
 }
