@@ -20,7 +20,7 @@ import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.request.ItemRequestRepository;
+import ru.practicum.shareit.request.RequestRepository;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
@@ -41,7 +41,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final BookingService bookingService;
-    private final ItemRequestRepository itemRequestRepository;
+    private final RequestRepository requestRepository;
     private final CommentRepository commentRepository;
     private final ItemMapper itemMapper;
     private final CommentMapper commentMapper;
@@ -55,7 +55,7 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         item.setOwner(user);
         if (requestDto.getRequestId() != null) {
-            ItemRequest itemRequest = itemRequestRepository.findById(requestDto.getRequestId())
+            ItemRequest itemRequest = requestRepository.findById(requestDto.getRequestId())
                     .orElseThrow(() -> new EntityNotFoundException("Item request not found"));
             item.setItemRequest(itemRequest);
         }

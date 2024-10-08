@@ -8,7 +8,7 @@ import org.mapstruct.NullValueMappingStrategy;
 import ru.practicum.shareit.item.dto.ItemRequestDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.request.dto.NewItemRequestDto;
+import ru.practicum.shareit.request.dto.NewRequestDto;
 import ru.practicum.shareit.request.dto.RequestDto;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
@@ -18,7 +18,7 @@ import ru.practicum.shareit.user.model.User;
         uses = ItemMapper.class)
 public interface ItemRequestMapper {
 
-    ItemRequest mapToItemRequest(NewItemRequestDto request);
+    ItemRequest mapToItemRequest(NewRequestDto request);
 
     @Mapping(target = "items", source = "items", qualifiedByName = "mapToItemRequestDto")
     RequestDto mapToItemRequestDto(ItemRequest itemRequest);

@@ -7,7 +7,7 @@ import ru.practicum.shareit.request.model.ItemRequest;
 import java.util.List;
 
 
-public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long> {
+public interface RequestRepository extends JpaRepository<ItemRequest, Long> {
 
     @Query("select distinct ir " +
             "from ItemRequest ir " +

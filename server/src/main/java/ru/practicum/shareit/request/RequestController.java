@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.shareit.request.dto.NewItemRequestDto;
+import ru.practicum.shareit.request.dto.NewRequestDto;
 import ru.practicum.shareit.request.dto.RequestDto;
 
 import java.util.List;
@@ -19,12 +19,12 @@ import static ru.practicum.shareit.util.HeaderConstant.USER_ID_HEADER;
 @RestController
 @RequestMapping(path = "/requests")
 @RequiredArgsConstructor
-public class ItemRequestController {
+public class RequestController {
 
     private final ItemRequestService itemRequestService;
 
     @PostMapping
-    public RequestDto createItemRequest(@RequestBody NewItemRequestDto request,
+    public RequestDto createItemRequest(@RequestBody NewRequestDto request,
                                         @RequestHeader(USER_ID_HEADER) long userId) {
         return itemRequestService.createItemRequest(request, userId);
     }

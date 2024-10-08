@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.EntityNotFoundException;
-import ru.practicum.shareit.request.dto.NewItemRequestDto;
+import ru.practicum.shareit.request.dto.NewRequestDto;
 import ru.practicum.shareit.request.dto.RequestDto;
 import ru.practicum.shareit.request.mapper.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
@@ -19,15 +19,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
-public class ItemRequestServiceImpl implements ItemRequestService {
+public class RequestServiceImpl implements ItemRequestService {
 
-    private final ItemRequestRepository requestRepository;
+    private final RequestRepository requestRepository;
     private final UserService userService;
     private final ItemRequestMapper mapper;
 
     @Override
     @Transactional
-    public RequestDto createItemRequest(NewItemRequestDto requestDto, long userId) {
+    public RequestDto createItemRequest(NewRequestDto requestDto, long userId) {
         log.info("Creating new item request userId: {}", userId);
         ItemRequest itemRequest = mapper.mapToItemRequest(requestDto);
         User requester = userService.findById(userId);

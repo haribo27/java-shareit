@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.practicum.shareit.gateway.item.dto.NewItemRequestDto;
 
 import static ru.practicum.shareit.gateway.util.HeaderConstant.USER_ID_HEADER;
 
@@ -24,7 +23,7 @@ public class ItemRequestController {
     private final RequestClient requestClient;
 
     @PostMapping
-    public ResponseEntity<Object> createItemRequest(@RequestBody NewItemRequestDto request,
+    public ResponseEntity<Object> createItemRequest(@RequestBody NewRequestDto request,
                                                     @RequestHeader(USER_ID_HEADER) long userId) {
         return requestClient.createItemRequest(request, userId);
     }
