@@ -38,7 +38,7 @@ public class ItemController {
     public ItemDto updateItem(@RequestBody UpdateItemRequestDto requestDto,
                               @PathVariable long itemId,
                               @RequestHeader(USER_ID_HEADER) long userId) {
-        return itemService.updateItem(requestDto, userId, itemId);
+        return itemService.updateItem(requestDto, userId,  itemId);
     }
 
     @GetMapping("/{itemId}")
