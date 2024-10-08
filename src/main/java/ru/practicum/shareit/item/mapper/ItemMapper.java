@@ -20,8 +20,8 @@ public interface ItemMapper {
 
     ItemOwnerDto toItemOwnerDto(Item item);
 
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateItem(UpdateItemRequestDto requestDto, @MappingTarget Item item);
-
 
 }

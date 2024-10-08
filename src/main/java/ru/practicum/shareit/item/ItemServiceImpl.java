@@ -20,6 +20,8 @@ import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.ItemRequestRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
@@ -39,6 +41,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final BookingService bookingService;
+    private final ItemRequestRepository itemRequestRepository;
     private final CommentRepository commentRepository;
     private final ItemMapper itemMapper;
     private final CommentMapper commentMapper;
@@ -51,6 +54,11 @@ public class ItemServiceImpl implements ItemService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         item.setOwner(user);
+        if (requestDto.getRequestId() != null) {
+            ItemRequest itemRequest = itemRequestRepository.findById(requestDto.getRequestId())
+                    .orElseThrow(() -> new EntityNotFoundException("Item request not found"));
+            item.setItemRequest(itemRequest);
+        }
         item = itemRepository.save(item);
         log.info("Created new Item {}", item);
         return itemMapper.toItemDto(item);
@@ -160,5 +168,6 @@ public class ItemServiceImpl implements ItemService {
         return new BookingDates(lastBooking, nextBooking);
     }
 
-    private record BookingDates(LocalDateTime lastBooking, LocalDateTime nextBooking) { }
+    private record BookingDates(LocalDateTime lastBooking, LocalDateTime nextBooking) {
+    }
 }

@@ -18,4 +18,5 @@ public class NewItemRequestDto {
     private String description;
     @NotNull
     private Boolean available;
+    private Long requestId;
 }

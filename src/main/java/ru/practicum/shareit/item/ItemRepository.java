@@ -23,4 +23,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "JOIN FETCH it.owner " +
             "where it.id = ?1")
     Optional<Item> findByIdWithUser(long itemId);
+
+
 }
