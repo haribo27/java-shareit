@@ -15,8 +15,6 @@ import ru.practicum.shareit.user.dto.NewUserRequestDto;
 import ru.practicum.shareit.user.dto.UpdateUserRequestDto;
 import ru.practicum.shareit.user.dto.UserDto;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -24,11 +22,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
-    @GetMapping
-    public List<UserDto> getAllUsers() {
-        return userService.getAllUsers();
-    }
 
     @GetMapping("/{userId}")
     public UserDto findUserById(@PathVariable long userId) {
