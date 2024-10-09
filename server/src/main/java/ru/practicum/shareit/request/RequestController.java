@@ -24,8 +24,8 @@ public class RequestController {
     private final RequestService requestService;
 
     @PostMapping
-    public RequestDto createItemRequest(@RequestBody NewRequestDto request,
-                                        @RequestHeader(USER_ID_HEADER) long userId) {
+    public RequestDto createRequest(@RequestBody NewRequestDto request,
+                                    @RequestHeader(USER_ID_HEADER) long userId) {
         return requestService.createItemRequest(request, userId);
     }
 
@@ -35,7 +35,7 @@ public class RequestController {
     }
 
     @GetMapping("/all")
-    public List<RequestDto> getAllItemRequests() {
+    public List<RequestDto> getAllRequests() {
         return requestService.getAllRequests();
     }
 

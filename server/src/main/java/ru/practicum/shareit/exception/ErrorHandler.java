@@ -22,7 +22,7 @@ public class ErrorHandler {
     public ResponseEntity<?> handleEntityNotFound(final Exception e) {
         log.info("Entity not found 404 {}", e.getMessage());
         return new ResponseEntity<>(new ErrorResponse("404 " + e.getMessage(),
-                "Entity not founf"),
+                "Entity not found"),
                 HttpStatus.NOT_FOUND);
     }
 
