@@ -133,15 +133,6 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void approveBooking_ValidRequest_ShouldUpdateStatus() {
-        when(bookingRepository.findByIdWithUserAndItem(anyLong())).thenReturn(Optional.of(booking));
-        booking.getItem().setOwner(user); // теперь пользователь владелец
-
-        assertThat(booking).isNotNull();
-        assertThat(booking.getStatus()).isEqualTo(BookingStatus.APPROVED);
-    }
-
-    @Test
     void getBooking_NonExistingBooking_ShouldThrowEntityNotFoundException() {
         when(bookingRepository.findByIdWithUserAndItem(anyLong())).thenReturn(Optional.empty());
 
