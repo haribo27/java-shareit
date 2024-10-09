@@ -1,7 +1,6 @@
 package ru.practicum.shareit;
 
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -188,7 +187,7 @@ public class ItemServiceIntegrationTest {
         assertThat(foundItems).isNotEmpty();
         assertThat(foundItems.get(0).getName()).contains("Test");
     }
-    
+
     @Test
     void createComment_ShouldThrowExceptionIfNoBookingExists() {
         // Create an item first
