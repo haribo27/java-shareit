@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = {TestController.class, ErrorHandler.class})
+@WebMvcTest(controllers = {TestControllerTest.class, ErrorHandler.class})
 public class ErrorHandlerTest {
 
     @Autowired

@@ -10,7 +10,7 @@ import ru.practicum.shareit.exception.NotEnoughRightsToChangeData;
 
 @RestController
 @RequestMapping("/test")
-public class TestController {
+public class TestControllerTest {
 
     @GetMapping("/not-found")
     public void throwNotFound() {
