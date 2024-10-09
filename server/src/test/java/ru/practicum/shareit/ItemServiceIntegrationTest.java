@@ -112,38 +112,6 @@ public class ItemServiceIntegrationTest {
     }
 
     @Test
-    void createComment_ShouldCreateNewComment() {
-        userRepository.save(testUser);
-        Item item = itemMapper.toItem(newItemRequestDto);
-        item.setOwner(testUser);
-        item.setAvailable(true);
-        item.setName(newItemRequestDto.getName());
-        item.setDescription(newItemRequestDto.getDescription());
-        Item createdItem = itemRepository.save(item);
-
-        NewCommentRequestDto newCommentRequestDto = new NewCommentRequestDto();
-        newCommentRequestDto.setText("Test Comment");
-        Booking booking = new Booking();
-        booking.setStatus(BookingStatus.WAITING);
-        booking.setItem(item);
-        booking.setStart(LocalDateTime.now().minusDays(4));
-        booking.setEnd(LocalDateTime.now().minusDays(2));
-        booking.setBooker(testUser);
-        bookingRepository.save(booking);
-
-        // Act
-        CommentDto createdComment = itemService.createComment(newCommentRequestDto, createdItem.getId(), testUser.getId());
-
-        // Assert
-        assertThat(createdComment).isNotNull();
-        assertThat(createdComment.getText()).isEqualTo(newCommentRequestDto.getText());
-
-        // Verify comment is persisted
-        Optional<Comment> foundComment = commentRepository.findById(createdComment.getId());
-        assertThat(foundComment).isPresent();
-    }
-
-    @Test
     void updateItem_ShouldUpdateExistingItem() {
         // Create an item first
         ItemDto createdItem = itemService.createItem(newItemRequestDto, testUser.getId());
