@@ -113,6 +113,7 @@ public class ItemServiceIntegrationTest {
 
     @Test
     void createComment_ShouldCreateNewComment() {
+        userRepository.save(testUser);
         Item item = itemMapper.toItem(newItemRequestDto);
         item.setOwner(testUser);
         item.setAvailable(true);
