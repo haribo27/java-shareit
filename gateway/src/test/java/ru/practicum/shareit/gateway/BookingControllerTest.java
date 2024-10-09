@@ -43,7 +43,6 @@ class BookingControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Инициализация корректного запроса бронирования
         validBookingRequest = new NewBookingRequest();
         validBookingRequest.setItemId(1L);
         validBookingRequest.setStart(LocalDateTime.now().plusDays(1));

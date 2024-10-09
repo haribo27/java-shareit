@@ -41,14 +41,12 @@ class ItemControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Инициализация валидного запроса для создания нового элемента
         validNewItemRequestDto = new NewItemRequestDto();
         validNewItemRequestDto.setName("Test Item");
         validNewItemRequestDto.setDescription("Description for Test Item");
         validNewItemRequestDto.setAvailable(true);
         validNewItemRequestDto.setRequestId(1L);
 
-        // Инициализация валидного запроса для обновления элемента
         validUpdateItemRequestDto = new UpdateItemRequestDto();
         validUpdateItemRequestDto.setName("Updated Test Item");
         validUpdateItemRequestDto.setDescription("Updated description for Test Item");
@@ -69,8 +67,7 @@ class ItemControllerTest {
 
     @Test
     void createItem_InvalidRequest() throws Exception {
-        // Тестирование запроса с невалидными данными (пустое имя)
-        validNewItemRequestDto.setName("");  // Некорректное имя
+        validNewItemRequestDto.setName("");
 
         mockMvc.perform(post("/items")
                         .header(USER_ID_HEADER, 1L)
@@ -94,8 +91,7 @@ class ItemControllerTest {
 
     @Test
     void updateItem_InvalidRequest() throws Exception {
-        // Тестирование запроса с невалидными данными (слишком длинное описание)
-        validUpdateItemRequestDto.setDescription("A".repeat(2001));  // Длина описания больше 2000 символов
+        validUpdateItemRequestDto.setDescription("A".repeat(2001));
 
         mockMvc.perform(patch("/items/{itemId}", 1L)
                         .header(USER_ID_HEADER, 1L)

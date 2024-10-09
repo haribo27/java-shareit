@@ -16,7 +16,7 @@ import ru.practicum.shareit.user.model.User;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         nullValueMapMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
         uses = ItemMapper.class)
-public interface ItemRequestMapper {
+public interface RequestMapper {
 
     ItemRequest mapToItemRequest(NewRequestDto request);
 

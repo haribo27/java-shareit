@@ -21,27 +21,27 @@ import static ru.practicum.shareit.util.HeaderConstant.USER_ID_HEADER;
 @RequiredArgsConstructor
 public class RequestController {
 
-    private final ItemRequestService itemRequestService;
+    private final RequestService requestService;
 
     @PostMapping
     public RequestDto createItemRequest(@RequestBody NewRequestDto request,
                                         @RequestHeader(USER_ID_HEADER) long userId) {
-        return itemRequestService.createItemRequest(request, userId);
+        return requestService.createItemRequest(request, userId);
     }
 
     @GetMapping
     public List<RequestDto> getOwnItemRequests(@RequestHeader(USER_ID_HEADER) long userId) {
-        return itemRequestService.getOwnItemRequests(userId);
+        return requestService.getOwnItemRequests(userId);
     }
 
     @GetMapping("/all")
     public List<RequestDto> getAllItemRequests() {
-        return itemRequestService.getAllRequests();
+        return requestService.getAllRequests();
     }
 
     @GetMapping("/{requestId}")
     public RequestDto getRequestInfo(@PathVariable long requestId) {
-        return itemRequestService.getRequestInfo(requestId);
+        return requestService.getRequestInfo(requestId);
     }
 
 

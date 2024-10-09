@@ -5,7 +5,7 @@ import ru.practicum.shareit.request.dto.RequestDto;
 
 import java.util.List;
 
-public interface ItemRequestService {
+public interface RequestService {
 
     RequestDto createItemRequest(NewRequestDto requestDto, long userId);
 
