@@ -66,6 +66,34 @@ class UserServiceImplTest {
     }
 
     @Test
+    void createUser_shouldThrowEmailAlreadyExist_whenEmailAlreadyExists() {
+        // Arrange
+        when(userRepository.findByEmail(newUserRequestDto.getEmail())).thenReturn(Optional.of(user));
+
+        // Act & Assert
+        EmailAlreadyExist exception = assertThrows(EmailAlreadyExist.class, () -> userService.createUser(newUserRequestDto));
+        assertEquals("Try another email. This already exist", exception.getMessage());
+    }
+
+    @Test
+    void createUser_shouldReturnUserDto_whenUserIsCreatedSuccessfully() {
+        // Arrange
+        when(userRepository.findByEmail(newUserRequestDto.getEmail())).thenReturn(Optional.empty());
+        when(userMapper.requestToUser(newUserRequestDto)).thenReturn(user);
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        when(userMapper.toUserDto(user)).thenReturn(userDto);
+
+        // Act
+        UserDto result = userService.createUser(newUserRequestDto);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(userDto, result);
+        verify(userRepository).save(user);
+        verify(userMapper).requestToUser(newUserRequestDto);
+    }
+
+    @Test
     void createUser_ValidRequest_ShouldReturnUserDto() {
         // Arrange
         when(userMapper.requestToUser(any())).thenReturn(user);
