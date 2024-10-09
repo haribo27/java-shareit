@@ -134,7 +134,6 @@ class UserServiceImplTest {
         // Arrange
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // Act & Assert
         assertThrows(EntityNotFoundException.class, () -> userService.updateUser(updateUserRequestDto, 1L));
     }
 
