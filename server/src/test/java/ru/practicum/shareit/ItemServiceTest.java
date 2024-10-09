@@ -26,12 +26,19 @@ import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class ItemServiceTest {
 
@@ -137,7 +144,7 @@ class ItemServiceTest {
     void createItem_UserNotFound() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, 
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
                 () -> itemService.createItem(newItemRequestDto, user.getId()));
 
         assertEquals("User not found", exception.getMessage());
@@ -163,7 +170,7 @@ class ItemServiceTest {
     void createComment_ItemNotFound() {
         when(itemRepository.findByIdWithUser(anyLong())).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, 
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
                 () -> itemService.createComment(newCommentRequestDto, item.getId(), user.getId()));
 
         assertEquals("Item not found", exception.getMessage());
@@ -175,7 +182,7 @@ class ItemServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(bookingService.isUserHadBookingOfItem(anyLong(), anyLong())).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, 
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
                 () -> itemService.createComment(newCommentRequestDto, item.getId(), user.getId()));
 
         assertEquals("User doesn't have this booking", exception.getMessage());
@@ -188,7 +195,7 @@ class ItemServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(bookingService.isUserHadBookingOfItem(anyLong(), anyLong())).thenReturn(Optional.of(booking));
 
-        NotEnoughRightsToChangeData exception = assertThrows(NotEnoughRightsToChangeData.class, 
+        NotEnoughRightsToChangeData exception = assertThrows(NotEnoughRightsToChangeData.class,
                 () -> itemService.createComment(newCommentRequestDto, item.getId(), user.getId()));
 
         assertEquals("Booking must be past to create comment", exception.getMessage());
@@ -211,7 +218,7 @@ class ItemServiceTest {
     void updateItem_ItemNotFound() {
         when(itemRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, 
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
                 () -> itemService.updateItem(new UpdateItemRequestDto(), user.getId(), item.getId()));
 
         assertEquals("Item not found", exception.getMessage());

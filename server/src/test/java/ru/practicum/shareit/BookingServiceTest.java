@@ -23,10 +23,16 @@ import ru.practicum.shareit.user.model.User;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class BookingServiceTest {
 
@@ -154,7 +160,7 @@ class BookingServiceTest {
     void getBooking_BookingNotFound() {
         when(bookingRepository.findByIdWithUserAndItem(anyLong())).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, 
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
                 () -> bookingService.getBooking(user.getId(), booking.getId()));
 
         assertEquals("Booking not found", exception.getMessage());
