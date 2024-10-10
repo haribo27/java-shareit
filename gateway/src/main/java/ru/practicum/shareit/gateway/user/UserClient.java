@@ -31,11 +31,11 @@ public class UserClient extends BaseClient {
         return get("/" + userId);
     }
 
-    public ResponseEntity<Object> createUser(@Valid NewUserRequestDto request) {
+    public ResponseEntity<Object> createUser(NewUserRequestDto request) {
         return post("", request);
     }
 
-    public ResponseEntity<Object> updateUser(@Valid UpdateUserRequestDto request, long userId) {
+    public ResponseEntity<Object> updateUser(UpdateUserRequestDto request, long userId) {
         return patch("/" + userId, request);
     }
 
